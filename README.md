@@ -15,7 +15,7 @@ clang -v pong.c -I/opt/homebrew/include -L/opt/homebrew/lib -lSDL2 -o main.o
 
 ## To do
 
-- [] dynamically allocate everything
+- [ ] dynamically allocate everything
 
 ## To do Pong 1.0
 
