@@ -6,16 +6,9 @@
 
 Install SDL2, it's a good practice to learn how to google
 
-## Compilation
-```
-clang -v pong.c -I/opt/homebrew/include -L/opt/homebrew/lib -lSDL2 -o main.o
-```
-<br>You should know how to run the object file generated
-<br>Don't forget the other c files
-
 ## To do
 
-- [ ] dynamically allocate everything
+- [ ] dynamically change the size of the ball
 
 ## To do Pong 1.0
 

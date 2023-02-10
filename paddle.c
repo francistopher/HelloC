@@ -11,10 +11,10 @@
  * Draws paddle
  */
 
-void drawPaddle(SDL_Renderer *renderer, struct PaddleCoordinate position, struct Dimension size, unsigned short length, unsigned short layer)
+void drawPaddle(SDL_Renderer *renderer, Coordinate* position, Dimension* size, unsigned short length, unsigned short layer)
 {
 	if (length != 0) {
-		if (size.layers % 2 == 1) {
+		if (size->layers % 2 == 1) {
 			if (layer % 2 == 0) {
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			} else {
@@ -28,10 +28,10 @@ void drawPaddle(SDL_Renderer *renderer, struct PaddleCoordinate position, struct
 			}
 		
 		}
-		SDL_RenderDrawPoint(renderer, position.x, position.y + length-- - 1);
+		SDL_RenderDrawPoint(renderer, position->x, position->y + length-- - 1);
 		drawPaddle(renderer, position, size, length, layer);
 	} else {
-		if (size.layers % 2 == 0) {
+		if (size->layers % 2 == 0) {
 			if (layer % 2 == 0) {
 				SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 			} else {
@@ -45,36 +45,36 @@ void drawPaddle(SDL_Renderer *renderer, struct PaddleCoordinate position, struct
 			}
 		
 		}
-		position.y--;
-		position.x--;
-		if (size.layers > layer) {
+		position->y--;
+		position->x--;
+		if (size->layers > layer) {
 			drawHorizontalPaddleLayer(renderer, position, size, 0, ((layer + 1) * 2) + 1);
-			drawVerticalPaddleLayer(renderer, position, size, 0, size.coreLength);
-			position.y += size.coreLength;
+			drawVerticalPaddleLayer(renderer, position, size, 0, size->coreLength);
+			position->y += size->coreLength;
 			drawHorizontalPaddleLayer(renderer, position, size, 0, ((layer + 1) * 2) + 1);
-			position.x += ((layer + 1) * 2);
-			position.y -= size.coreLength;
-			drawVerticalPaddleLayer(renderer, position, size, 0, size.coreLength);
-			position.x -= ((layer + 1) * 2);
-			size.coreLength += 2;
+			position->x += ((layer + 1) * 2);
+			position->y -= size->coreLength;
+			drawVerticalPaddleLayer(renderer, position, size, 0, size->coreLength);
+			position->x -= ((layer + 1) * 2);
+			size->coreLength += 2;
 			drawPaddle(renderer, position, size, length, layer + 1);
 		} 
 	}
 
 }
 
-void drawVerticalPaddleLayer(SDL_Renderer *renderer, struct PaddleCoordinate position, struct Dimension size, unsigned short layer, unsigned short length)
+void drawVerticalPaddleLayer(SDL_Renderer *renderer, Coordinate* position, Dimension* size, unsigned short layer, unsigned short length)
 {
 	if (length > 0) {
-		SDL_RenderDrawPoint(renderer, position.x, position.y + length--);
+		SDL_RenderDrawPoint(renderer, position->x, position->y + length--);
 		drawVerticalPaddleLayer(renderer, position, size, layer, length);
 	}
 }
 
-void drawHorizontalPaddleLayer(SDL_Renderer *renderer, struct PaddleCoordinate position, struct Dimension size, unsigned short layer, unsigned short length)
+void drawHorizontalPaddleLayer(SDL_Renderer *renderer, Coordinate* position, Dimension* size, unsigned short layer, unsigned short length)
 {
 	if (length > 0) {
-		SDL_RenderDrawPoint(renderer, position.x + --length, position.y);
+		SDL_RenderDrawPoint(renderer, position->x + --length, position->y);
 		drawHorizontalPaddleLayer(renderer, position, size, layer, length);
 	}
 }

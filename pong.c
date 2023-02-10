@@ -18,40 +18,39 @@ typedef enum {false, true} bool;
 
 int main(int argc, const char* argv[])
 {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) { // initialize sdl or exit upon error
+    // initialize sdl or exit upon error 
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         fprintf(stderr, "FAILED TO INITIALIZE SDL: %s\n", SDL_GetError());
         exit(1);
     }
+    // create window, what houses the pixels
+    SDL_Window *window = SDL_CreateWindow("Pong 0.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
+    // create renderer, draws the pixels
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    // set background color
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    // uses set color to clear
+    SDL_RenderClear(renderer);
+    // set color to render the ball
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    // draw the pong ball
+    unsigned short ballRadius = 10;
+    Coordinate* center = (Coordinate*)malloc(sizeof(Coordinate));
+    center->x = (WIDTH - (ballRadius * 2)) / 2; 
+    center->y = (HEIGHT - (ballRadius * 2)) / 2;
+    Coordinate* pos = (Coordinate*)malloc(sizeof(Coordinate));
+    pos->x = (WIDTH - (ballRadius * 2)) / 2;
+    pos->y = (HEIGHT - (ballRadius * 2)) / 2;
+    drawBall(renderer, center, pos, ballRadius, 1); // leave the 5th param with a value of 1
 
-    SDL_Window *window = SDL_CreateWindow("Pong 1.0", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN); // create window
+    Coordinate* paddlePos = (Coordinate*)malloc(sizeof(Coordinate));
+    paddlePos->x = 100;
+    paddlePos->y = 100;
+    Dimension* paddleSize = (Dimension*)malloc(sizeof(Dimension));
+    paddleSize->layers = 10;
+    paddleSize->coreLength = 100;
 
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED); // create what draws contents
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // set color
-    SDL_RenderClear(renderer); // clear contents with set color
-
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255); // set color
-    unsigned short ballRadius = 10; // draw the pong ball
-    struct Coordinate center = {
-        .x = (WIDTH - (ballRadius * 2)) / 2, 
-        .y = (HEIGHT - (ballRadius * 2)) / 2
-    };
-    struct Coordinate position = {
-        .x = (WIDTH - (ballRadius * 2)) / 2, 
-        .y = (HEIGHT - (ballRadius * 2)) / 2
-    };
-    drawBall(renderer, center, position, ballRadius, 1); // leave the 5th param with a value of 1
-
-    struct PaddleCoordinate paddle1Position = {
-        .x = 100,
-        .y = 100
-    };
-
-    struct Dimension paddle1Size = {
-        .layers = 10,
-        .coreLength = 100
-    };
-
-    drawPaddle(renderer, paddle1Position, paddle1Size, paddle1Size.coreLength, 0);
+    drawPaddle(renderer, paddlePos, paddleSize, paddleSize->coreLength, 0);
 
 
     SDL_RenderPresent(renderer); // have renderer present drawn contents
@@ -78,4 +77,8 @@ int main(int argc, const char* argv[])
         }
     }
     SDL_Quit(); // quit
+    free(center);
+    free(pos);
+    free(paddlePos);
+    free(paddleSize);
 }
