@@ -1,6 +1,7 @@
 # Hello C
 
-Getting better at C
+Learning and reviewing C
+
 
 ## Leak Detector
 
