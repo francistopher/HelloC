@@ -1,3 +1,8 @@
+// solved on 2/27/23
+#include <stdio.h>
+
+typedef enum bool {false, true} bool;
+
 bool canFormArray(int* arr, int arrSize, int** pieces, int piecesSize, int* piecesColSize){
     int matchingPiecesIndex;
     int pieceIndex;
