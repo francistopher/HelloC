@@ -1,6 +1,10 @@
-# Hello C
+# LeetCode
 
-Getting better at C
+etc
+
+## Prologue
+
+i mean if i can do it in C, then
 
 ## Leak Detector
 
