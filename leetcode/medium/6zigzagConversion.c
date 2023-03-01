@@ -5,31 +5,31 @@
 #include <string.h>
 
 char * convert(char * s, int numRows){
-    // numRow of 1 is basically the arr itself
-    if (numRows == 1) return s;
+	// numRow of 1 is basically the arr itself
+	if (numRows == 1) return s;
 	int slen = strlen(s);
-    if (slen == 1 || numRows > slen) return s;
-    // 2d arr to map pattern
-	char arr[numRows][(slen / 2) + 1];
-    // rows, columns
+	if (slen == 1 || numRows > slen) return s;
+	// rows, columns
 	int x = 0;
 	int y = 0;
-    // set every cell to a space
-	for (x = 0; x < numRows; x++)
+	// 2d arr to map pattern
+	char** arr = malloc(sizeof(char*) * numRows);
+	for (int x = 0; x < numRows; x++)
 	{
-		for (y = 0; y < (slen / 2) + 1; y++)
+		arr[x] = malloc(sizeof(char) * (slen / 2) + 1);
+		for (int y = 0; y < (slen / 2) + 1; y++)
 		{
 			arr[x][y] = ' ';
 		}
-	} 
-
-    x = 0;
-    y = 0;
-    // zig zag through the 2d arr
-    bool diagonal = false;
+	}
+	// set every cell to a space
+	x = 0;
+	y = 0;
+	// zig zag through the 2d arr
+	bool diagonal = false;
 	while (*s != '\0')
 	{
-        // going diagonal
+		// going diagonal
 		if (diagonal)
 		{
 			if (x >= 0)
@@ -40,14 +40,14 @@ char * convert(char * s, int numRows){
 			}
 			else
 			{
-                // shifting to going vertical
+				// shifting to going vertical
 				diagonal = false;
 				x+=2;
 				y--;
 				continue;
 			}
 		}
-        // going vertical
+		// going vertical
 		else
 		{
 			if (x < numRows)
@@ -55,7 +55,7 @@ char * convert(char * s, int numRows){
 				arr[x][y] = *s;
 				x++;
 			}
-            // shifting to going diagonal
+			// shifting to going diagonal
 			else
 			{
 				diagonal = true;
@@ -66,8 +66,10 @@ char * convert(char * s, int numRows){
 		}
 		*s++;
 	}
-    // collect row by row
+	// collect row by row
 	char* res = malloc(sizeof(char) * slen + 1);
+
+	res[slen] = '\0';
 	int resi = 0;
 	for (x = 0; x < numRows; x++)
 	{
@@ -77,13 +79,10 @@ char * convert(char * s, int numRows){
 			{
 				res[resi++] = arr[x][y];
 			}
-        }
+		}
 	}
-    // to pointer
-    res[slen] = '\0';
 	return res;
 }
-
 
 int main(void)
 {
